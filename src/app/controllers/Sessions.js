@@ -35,10 +35,18 @@ class SessionsLogin {
             admins: user.admins,
             token: JWT.sign({ id: user.id, name: user.name }, auths.secret, {
                 expiresIn: auths.expiresIn,
-            })
+            }),
+            position: user.position_in_company
         })
 
     }
+
+    async index(req, res) {
+        const login = await User.findAll()
+        return res.status(200).json({ 'todos os usuarios': login })
+    }
+
+
 
 }
 

@@ -11,6 +11,7 @@ class UserController {
                 name: Yup.string().required(),
                 email: Yup.string().email().required(),
                 password: Yup.string().required().min(6),
+                position_in_company: Yup.string(),
                 admins: Yup.boolean(),
             })
         try {
@@ -19,7 +20,13 @@ class UserController {
             return res.status(400).json(err)
         }
 
-        const { name, email, password, admin } = req.body
+        const { name, email, password, admins, position_in_company } = req.body
+
+        const userExists = await User.findOne({ where: { email } })
+
+        if (userExists) {
+            return res.status(409).json({ message: 'this email already used' })
+        }
 
 
         const user = await User.create({
@@ -27,10 +34,11 @@ class UserController {
             name,
             email,
             password,
-            admin,
+            admins,
+            position_in_company,
         })
 
-        return res.status(201).json({ id: user.id, name, email, admin })
+        return res.status(201).json({ id: user.id, name, email, position_in_company })
 
     }
 
