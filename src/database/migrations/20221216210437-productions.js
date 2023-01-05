@@ -15,11 +15,12 @@ module.exports = {
           allowNull: false,
         },
         prod_per_hour: {
-          type: Sequelize.STRING,
+          type: Sequelize.INTEGER,
+          defaultValue: 0,
           allowNull: false,
         },
         lost_prod: {
-          type: Sequelize.STRING,
+          type: Sequelize.INTEGER,
           allowNull: false,
         },
         operator: {
@@ -27,7 +28,7 @@ module.exports = {
           allowNull: false,
         },
         total_prod: {
-          type: Sequelize.STRING,
+          type: Sequelize.INTEGER,
           allowNull: false,
         },
         created_at: {

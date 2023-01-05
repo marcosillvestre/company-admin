@@ -7,11 +7,11 @@ class ProductionController {
 
     async store(req, res) {
         const schema = Yup.object({
-            machine: Yup.string().required(),
-            prod_per_hour: Yup.string().required(),
-            lost_prod: Yup.string().required(),
+            machine_id: Yup.number().required(),
+            prod_per_hour: Yup.number().required(),
+            lost_prod: Yup.number().required(),
             operator: Yup.string().required(),
-            total_prod: Yup.string(),
+            total_prod: Yup.number(),
         })
         try {
             await schema.validateSync(req.body, { abortEarly: false })
@@ -19,16 +19,16 @@ class ProductionController {
             return res.status(400).json(err)
         }
 
-        const { machine, prod_per_hour, lost_prod, total_prod, operator } = req.body
+        const { machine_id, prod_per_hour, lost_prod, total_prod, operator } = req.body
 
         const prod = await Production.create({
-            machine,
+            machine_id,
             prod_per_hour,
             lost_prod,
             total_prod,
             operator,
         })
-        return res.json({ machine, operator })
+        return res.json(prod)
 
 
     } //chartjs graficos
